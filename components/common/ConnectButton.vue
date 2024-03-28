@@ -15,7 +15,7 @@ function connect() {
       Connect
     </template>
     <template v-else>
-      {{ shorterAddress(address) }}
+      {{ shorterAddress(address!) }}
     </template>
   </button>
 </template>

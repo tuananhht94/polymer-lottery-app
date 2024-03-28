@@ -6,11 +6,12 @@ import {
 } from '@web3modal/ethereum'
 import { Web3Modal } from '@web3modal/html'
 import { baseSepolia, mainnet, optimismSepolia } from 'viem/chains'
+import { adil } from '~/config/adil'
 
 export default defineNuxtPlugin((nuxtApp) => {
   const config = useRuntimeConfig()
   const projectId = config.public.WALLET_CONNECT_PROJECT_ID
-  const chains = [mainnet, optimismSepolia, baseSepolia]
+  const chains = [mainnet, optimismSepolia, baseSepolia, adil]
 
   const { publicClient } = configureChains(chains, [
     w3mProvider({ projectId }),

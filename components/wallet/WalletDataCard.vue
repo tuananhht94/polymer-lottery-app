@@ -1,9 +1,19 @@
 <script setup lang="ts">
-import { useAccount, useBalance } from 'use-wagmi'
+import { useAccount, useBalance, useContractRead } from 'use-wagmi'
+import { adil } from '~/config/adil'
+import { abi } from '~/config/api'
 
-const { address, status } = useAccount()
+const { address } = useAccount()
 const { data: balance, isLoading: isLoadingBalance } = useBalance({
+  chainId: adil.id,
   address,
+})
+const config = useRuntimeConfig()
+const { data: players } = useContractRead({
+  chainId: adil.id,
+  address: `0x${config.public.LOTTERY_CONTRACT_ADDRESS}`,
+  abi,
+  functionName: 'getPlayers',
 })
 </script>
 
@@ -14,13 +24,12 @@ const { data: balance, isLoading: isLoadingBalance } = useBalance({
         Wallet Data
       </h5>
       <div>
-        <p>Status: <span :class="status === 'connected' ? 'text-success' : ''">{{ status }}</span></p>
-        <p>Address: {{ address }}</p>
+        <p>Number of Players: {{ (players as string[])?.length || 0 }}</p>
       </div>
       <div>
         <p>
-          Balance: <span v-if="isLoadingBalance">loading...</span> <span v-else>{{ balance?.formatted }} {{
-            balance?.symbol }}</span>
+          Balance: <span v-if="isLoadingBalance">loading...</span>
+          <span v-else>{{ balance?.formatted }} {{ balance?.symbol }}</span>
         </p>
       </div>
     </div>

@@ -1,45 +1,70 @@
 <script setup lang="ts">
-import { useEnsAvatar } from 'use-wagmi'
+import { useAccount, useChainId, useContractWrite, useSwitchNetwork } from 'use-wagmi'
+import { parseEther } from 'viem'
+import { adil } from '~/config/adil'
+import { abi } from '~/config/api'
 
-const ensExampleAvatar = ref(['jxom.eth', 'domico.eth', 'awkweb.eth'])
-const selectedEnsAvatar = ref('')
-
-const { data: ensAvatar, isLoading: loadingAvatar } = useEnsAvatar({
-  name: selectedEnsAvatar,
+const { isConnected } = useAccount()
+const chainId = useChainId()
+const { switchNetworkAsync } = useSwitchNetwork({
+  chainId: adil.id,
 })
+const config = useRuntimeConfig()
+const { data, write, isLoading, isSuccess, isError } = useContractWrite({
+  chainId: adil.id,
+  address: `0x${config.public.LOTTERY_CONTRACT_ADDRESS}`,
+  abi,
+  functionName: 'enter',
+  value: parseEther('0.1'),
+})
+
+async function bet() {
+  if (chainId.value !== adil.id)
+    await switchNetworkAsync()
+
+  write()
+}
 </script>
 
 <template>
   <div class="card">
     <div class="card-body">
       <h5 class="card-title">
-        ENS Avatar Example
+        Betting
       </h5>
       <div class="row g-0">
         <div class="col">
-          <select
-            v-model="selectedEnsAvatar" class="form-select form-select-lg"
-            aria-label="Default select example"
-          >
-            <option value="" selected>
-              Pick an avatar
-            </option>
-            <option v-for="item in ensExampleAvatar" :key="item" :value="item">
-              {{ item }}
-            </option>
-          </select>
+          <div class="bet">
+            <div v-if="isConnected">
+              <p>Bet Amount: 0.1 ETH</p>
+              <button class="btn btn-dark" :disabled="isLoading" @click="bet">
+                Bet!
+              </button>
+            </div>
+            <div v-else>
+              <div class="alert alert-warning">
+                <span>You need to connect your wallet</span>
+              </div>
+              <p>Bet Amount: 0.1 ETH</p>
+            </div>
+            <div class="lottery">
+              <div v-if="isLoading">
+                <p>Your transaction is being confirmed, please wait!</p>
+              </div>
+              <div v-if="isSuccess" class="transaction">
+                <p>Your bet has been placed successfully!</p>
+                <a :href="`${adil.blockExplorers.default.url}/tx/${data?.hash}`" target="_blank">
+                  Click here and check your transaction
+                </a>
+                <p>Hash: {{ data?.hash }}</p>
+              </div>
+            </div>
+            <div v-if="isError" class="transaction">
+              <p>Transaction failed!</p>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="mt-4">
-        <p v-if="loadingAvatar">
-          Loading avatar...
-        </p>
-        <img v-else-if="ensAvatar" style="max-width: 150px;" :src="ensAvatar" alt="">
-        <p v-else-if="selectedEnsAvatar">
-          ENS Not found
-        </p>
       </div>
     </div>
   </div>
 </template>
-e
