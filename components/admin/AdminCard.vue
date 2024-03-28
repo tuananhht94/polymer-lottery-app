@@ -51,6 +51,7 @@ const { data, write, isLoading, isSuccess, isError } = useContractWrite({
   address: `0x${config.public.LOTTERY_CONTRACT_ADDRESS}`,
   abi,
   functionName: 'pickWinner',
+  args: [config.public.LOTTERY_CHANNEL_ID, config.public.LOTTERY_TIMEOUT],
 })
 
 async function pickWinner() {

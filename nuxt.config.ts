@@ -5,7 +5,7 @@ export default defineNuxtConfig({
     head: {
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1',
-      title: 'Nuxt3 - Wagmi/Web3Modal',
+      title: 'Polymer AC lottery',
     },
   },
   css: ['bootstrap/dist/css/bootstrap.min.css'],
@@ -14,6 +14,8 @@ export default defineNuxtConfig({
     public: {
       WALLET_CONNECT_PROJECT_ID: process.env.WALLET_CONNECT_PROJECT_ID,
       LOTTERY_CONTRACT_ADDRESS: process.env.LOTTERY_CONTRACT_ADDRESS,
+      LOTTERY_CHANNEL_ID: process.env.LOTTERY_CHANNEL_ID,
+      LOTTERY_TIMEOUT: process.env.LOTTERY_TIMEOUT,
     },
   },
   vite: {

@@ -177,6 +177,19 @@ export const abi = [
     type: 'function',
   },
   {
+    inputs: [
+      {
+        internalType: 'address',
+        name: '_operator',
+        type: 'address',
+      },
+    ],
+    name: 'addOperator',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
     inputs: [],
     name: 'betAmount',
     outputs: [
@@ -783,6 +796,25 @@ export const abi = [
     type: 'function',
   },
   {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    name: 'operators',
+    outputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
     inputs: [],
     name: 'owner',
     outputs: [
@@ -796,13 +828,46 @@ export const abi = [
     type: 'function',
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: 'bytes32',
+        name: 'channelId',
+        type: 'bytes32',
+      },
+      {
+        internalType: 'uint64',
+        name: 'timeoutSeconds',
+        type: 'uint64',
+      },
+    ],
     name: 'pickWinner',
     outputs: [
       {
-        internalType: 'address payable',
+        components: [
+          {
+            internalType: 'address',
+            name: 'winner',
+            type: 'address',
+          },
+          {
+            internalType: 'uint256',
+            name: 'amount',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'counter',
+            type: 'uint256',
+          },
+          {
+            internalType: 'enum Lottery.IbcPacketStatus',
+            name: 'ibcPacketStatus',
+            type: 'uint8',
+          },
+        ],
+        internalType: 'struct Lottery.WinnerHistory',
         name: '',
-        type: 'address',
+        type: 'tuple',
       },
     ],
     stateMutability: 'nonpayable',
@@ -918,6 +983,19 @@ export const abi = [
       },
     ],
     stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: '_operator',
+        type: 'address',
+      },
+    ],
+    name: 'removeOperator',
+    outputs: [],
+    stateMutability: 'nonpayable',
     type: 'function',
   },
   {
@@ -1133,5 +1211,4 @@ export const abi = [
     stateMutability: 'payable',
     type: 'receive',
   },
-
 ]
