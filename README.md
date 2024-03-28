@@ -13,11 +13,14 @@ Technologies used:
 ## Setup
 
 Make sure to install the dependencies:
-
 ```bash
 # yarn
 yarn install
 ```
+
+Copy `.env.example` to `.env` and fill in the required environment variables.
+
+You can get the `WALLET_CONNECT_PROJECT_ID` from [WalletConnect](https://walletconnect.org/apps).
 
 ## Development Server
 
