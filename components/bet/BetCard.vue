@@ -29,9 +29,6 @@ async function bet() {
 <template>
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title">
-        Betting
-      </h5>
       <div class="row g-0">
         <div class="col">
           <div class="bet">
