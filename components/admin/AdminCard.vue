@@ -7,22 +7,22 @@ import {
   useContractWrite,
   useSwitchNetwork,
 } from 'use-wagmi'
-import { adil } from '~/config/adil'
+import { defaultChain } from '~/config/chain'
 import { abi } from '~/config/api'
 
 const config = useRuntimeConfig()
 const { data: balance, isLoading: isLoadingBalance, refetch: refetchBalance } = useBalance({
-  chainId: adil.id,
+  chainId: defaultChain.id,
   address: `0x${config.public.LOTTERY_CONTRACT_ADDRESS}`,
 })
 const { data: players, isLoading: isLoadingPlayers, refetch: refetchPlayers } = useContractRead({
-  chainId: adil.id,
+  chainId: defaultChain.id,
   address: `0x${config.public.LOTTERY_CONTRACT_ADDRESS}`,
   abi,
   functionName: 'getPlayers',
 })
 useContractEvent({
-  chainId: adil.id,
+  chainId: defaultChain.id,
   address: `0x${config.public.LOTTERY_CONTRACT_ADDRESS}`,
   abi,
   eventName: 'Enter',
@@ -32,7 +32,7 @@ useContractEvent({
   },
 })
 useContractEvent({
-  chainId: adil.id,
+  chainId: defaultChain.id,
   address: `0x${config.public.LOTTERY_CONTRACT_ADDRESS}`,
   abi,
   eventName: 'Winner',
@@ -44,17 +44,17 @@ useContractEvent({
 
 const chainId = useChainId()
 const { switchNetworkAsync } = useSwitchNetwork({
-  chainId: adil.id,
+  chainId: defaultChain.id,
 })
 const { data, write, isLoading, isSuccess, isError } = useContractWrite({
-  chainId: adil.id,
+  chainId: defaultChain.id,
   address: `0x${config.public.LOTTERY_CONTRACT_ADDRESS}`,
   abi,
   functionName: 'pickWinner',
 })
 
 async function pickWinner() {
-  if (chainId.value !== adil.id)
+  if (chainId.value !== defaultChain.id)
     await switchNetworkAsync()
 
   write()
@@ -81,7 +81,7 @@ async function pickWinner() {
             <p>Your transaction is being confirmed, please wait!</p>
           </div>
           <div v-if="isSuccess" class="transaction">
-            <a :href="`${adil.blockExplorers.default.url}/tx/${data?.hash}`" target="_blank">
+            <a :href="`${defaultChain.blockExplorers.default.url}/tx/${data?.hash}`" target="_blank">
               Click here and check your transaction
             </a>
             <p>Hash: {{ data?.hash }}</p>

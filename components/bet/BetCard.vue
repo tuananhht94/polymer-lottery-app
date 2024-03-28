@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import { useAccount, useChainId, useContractWrite, useSwitchNetwork } from 'use-wagmi'
 import { parseEther } from 'viem'
-import { adil } from '~/config/adil'
+import { defaultChain } from '~/config/chain'
 import { abi } from '~/config/api'
 
 const { isConnected } = useAccount()
 const chainId = useChainId()
 const { switchNetworkAsync } = useSwitchNetwork({
-  chainId: adil.id,
+  chainId: defaultChain.id,
 })
 const config = useRuntimeConfig()
 const { data, write, isLoading, isSuccess, isError } = useContractWrite({
-  chainId: adil.id,
+  chainId: defaultChain.id,
   address: `0x${config.public.LOTTERY_CONTRACT_ADDRESS}`,
   abi,
   functionName: 'enter',
@@ -19,7 +19,7 @@ const { data, write, isLoading, isSuccess, isError } = useContractWrite({
 })
 
 async function bet() {
-  if (chainId.value !== adil.id)
+  if (chainId.value !== defaultChain.id)
     await switchNetworkAsync()
 
   write()
@@ -50,7 +50,7 @@ async function bet() {
               </div>
               <div v-if="isSuccess" class="transaction">
                 <p>Your bet has been placed successfully!</p>
-                <a :href="`${adil.blockExplorers.default.url}/tx/${data?.hash}`" target="_blank">
+                <a :href="`${defaultChain.blockExplorers.default.url}/tx/${data?.hash}`" target="_blank">
                   Click here and check your transaction
                 </a>
                 <p>Hash: {{ data?.hash }}</p>

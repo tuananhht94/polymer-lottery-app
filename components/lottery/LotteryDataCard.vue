@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { useBalance, useContractEvent } from 'use-wagmi'
-import { adil } from '~/config/adil'
+import { defaultChain } from '~/config/chain'
 import { abi } from '~/config/api'
 
 const config = useRuntimeConfig()
 const { data: balance, isLoading: isLoadingBalance, refetch: refetchBalance } = useBalance({
-  chainId: adil.id,
+  chainId: defaultChain.id,
   address: `0x${config.public.LOTTERY_CONTRACT_ADDRESS}`,
 })
 useContractEvent({
-  chainId: adil.id,
+  chainId: defaultChain.id,
   address: `0x${config.public.LOTTERY_CONTRACT_ADDRESS}`,
   abi,
   eventName: 'Enter',
@@ -18,7 +18,7 @@ useContractEvent({
   },
 })
 useContractEvent({
-  chainId: adil.id,
+  chainId: defaultChain.id,
   address: `0x${config.public.LOTTERY_CONTRACT_ADDRESS}`,
   abi,
   eventName: 'Winner',
