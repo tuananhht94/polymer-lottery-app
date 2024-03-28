@@ -11,7 +11,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   runtimeConfig: {
     public: {
-      WALLETCONNECT_PROJECT_ID: process.env.WALLETCONNECT_PROJECT_ID,
+      WALLET_CONNECT_PROJECT_ID: process.env.WALLET_CONNECT_PROJECT_ID,
     },
   },
   vite: {

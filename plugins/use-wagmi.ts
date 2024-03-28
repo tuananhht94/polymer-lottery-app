@@ -1,16 +1,20 @@
 import { UseWagmiPlugin, configureChains, createConfig } from 'use-wagmi'
-import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
+import {
+  EthereumClient,
+  w3mConnectors,
+  w3mProvider,
+} from '@web3modal/ethereum'
 import { Web3Modal } from '@web3modal/html'
-import { avalanche, avalancheFuji, goerli, mainnet } from 'viem/chains'
+import { baseSepolia, mainnet, optimismSepolia } from 'viem/chains'
 
 export default defineNuxtPlugin((nuxtApp) => {
   const config = useRuntimeConfig()
-  const projectId = config.public.WALLETCONNECT_PROJECT_ID
-  const chains = [avalanche, avalancheFuji, mainnet, goerli]
+  const projectId = config.public.WALLET_CONNECT_PROJECT_ID
+  const chains = [mainnet, optimismSepolia, baseSepolia]
 
-  const { publicClient } = configureChains(chains,
-    [w3mProvider({ projectId })],
-  )
+  const { publicClient } = configureChains(chains, [
+    w3mProvider({ projectId }),
+  ])
 
   const web3config = createConfig({
     autoConnect: true,
