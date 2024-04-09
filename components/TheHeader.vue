@@ -5,6 +5,12 @@
         <h1>Lottery dApp</h1>
         <span>TESTNET</span>
       </div>
+      <nuxt-link to="/" class="nav-link">
+        Home
+      </nuxt-link>
+      <nuxt-link to="/admin" class="nav-link">
+        Admin
+      </nuxt-link>
       <CommonConnectButton />
     </div>
   </nav>
